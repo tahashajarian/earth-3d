@@ -157,7 +157,7 @@ class World {
     this.renderer.render(this.scene, this.camera)
     this.earth.rotation.x += 0.001;
     this.earth.rotation.y += 0.001;
-    this.meshClouds.rotation.x += 0.002;
+    this.meshClouds.rotation.x += 0.001;
     this.meshClouds.rotation.y += 0.002;
     //
     // this.earthGroup.rotation.x = this.mouse.y
