@@ -32,6 +32,7 @@ class World {
     this.addStarts()
     this.initEvents()
     this.createFog();
+    this.createLight()
     this.animate()
   }
 
@@ -79,12 +80,30 @@ class World {
       })
     )
 
+    const materialClouds = new THREE.MeshLambertMaterial({
+
+      map: new THREE.TextureLoader().load("assets/clouds.png"),
+      transparent: true
+    });
+
+    this.meshClouds = new THREE.Mesh(new THREE.SphereGeometry(5, 50, 50), materialClouds);
+    this.meshClouds.scale.set(1.02, 1.02, 1.02);
+    this.meshClouds.rotation.z = 0.41;
+    // this.scene.add(meshClouds);
+
+
     this.atmespher.scale.set(1.2, 1.2, 1.2);
     this.earthGroup = new THREE.Group();
-    this.earthGroup.add(this.earth, this.atmespher)
+    this.earthGroup.add(this.earth, this.atmespher, this.meshClouds)
     this.scene.add(this.earthGroup)
     // this.scene.add(this.earth)
     // this.scene.add(this.atmespher)
+  }
+
+  createLight() {
+    this.dirLight = new THREE.HemisphereLight(0xffffff);
+    this.dirLight.position.set(-1, 0, 1).normalize();
+    this.scene.add(this.dirLight);
   }
 
   addStarts() {
@@ -97,7 +116,7 @@ class World {
     for (let i = 0; i < 10000; i++) {
       const x = (Math.random() - 0.5) * 2000;
       const y = (Math.random() - 0.5) * 2000;
-      const z = -(Math.random() ) * 3500;
+      const z = -(Math.random()) * 3500;
       starVertices.push(x, y, z)
     }
     startGeometry.setAttribute(
@@ -138,6 +157,8 @@ class World {
     this.renderer.render(this.scene, this.camera)
     this.earth.rotation.x += 0.001;
     this.earth.rotation.y += 0.001;
+    this.meshClouds.rotation.x += 0.002;
+    this.meshClouds.rotation.y += 0.002;
     //
     // this.earthGroup.rotation.x = this.mouse.y
     gsap.to(
