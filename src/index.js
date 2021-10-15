@@ -22,7 +22,7 @@ class World {
       antialias: true,
     })
     this.mouse = {
-      x: undefined, y: undefined
+      x: 0, y: 0
     }
     this.renderer.setSize(innerWidth, innerHeight)
     this.renderer.setPixelRatio(window.devicePixelRatio)
