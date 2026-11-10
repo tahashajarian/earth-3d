@@ -1,0 +1,21 @@
+# Compress text files (three.js is ~670 KB raw, ~170 KB gzipped).
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+# Let browsers cache the big textures and libraries; HTML/JS stay short so
+# updates show up quickly.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType text/css "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType text/javascript "access plus 1 hour"
+  ExpiresByType text/html "access plus 5 minutes"
+</IfModule>
+
+# ES modules must be served as JavaScript.
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+</IfModule>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000005" />
+    <title>Find it on Earth</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌍%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="style.css?v=2" />
+    <script type="importmap">
+      { "imports": { "three": "./lib/three.module.min.js" } }
+    </script>
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div id="label" hidden></div>
+
+    <div id="loading">Loading Earth…</div>
+
+    <!-- In-game HUD -->
+    <header id="hud" hidden>
+      <div class="stat"><span>Round</span><b id="round">1/10</b></div>
+      <div class="stat"><span>Score</span><b id="score">0</b></div>
+      <div class="stat" id="streakBox"><span>Streak</span><b id="streak">–</b></div>
+    </header>
+
+    <div id="prompt" hidden>
+      <small>Find</small>
+      <h2 id="city">Tokyo</h2>
+      <p id="where">Japan</p>
+      <div id="timer"><i id="timerBar"></i></div>
+    </div>
+
+    <div id="actions" hidden>
+      <p id="tapHint">Spin the globe and tap where it is</p>
+      <div id="result" hidden>
+        <b id="rating">Great!</b>
+        <span id="resultLine">312 km away</span>
+        <em id="gain">+842</em>
+        <span id="cityInfo"></span>
+      </div>
+      <button id="actionBtn" class="primary" disabled>Guess</button>
+    </div>
+
+    <!-- Explore mode -->
+    <header id="exploreBar" hidden>
+      <button id="backBtn" aria-label="Back to menu">‹ Menu</button>
+      <div>
+        <b>Live Earth</b>
+        <span id="utcClock">&nbsp;</span>
+      </div>
+    </header>
+
+    <div id="exploreInfo" hidden>
+      <p id="exploreHint">Tap anywhere to see its local time, day or night and nearest city.<br />Day and night are shown as they are right now.</p>
+      <div id="placeCard" hidden>
+        <div class="placeTop">
+          <b id="placeTime">21:43</b>
+          <span id="placeDaylight">☾ Night</span>
+        </div>
+        <p id="placeName">Near Tokyo, Japan</p>
+        <p id="placeMeta">35.68° N, 139.69° E · GMT+9</p>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <section id="menu" class="overlay">
+      <div class="card">
+        <h1>Find it on Earth</h1>
+        <p class="sub">Spin the globe. Tap the city. Closer is better.</p>
+        <div class="modes" role="radiogroup" aria-label="Difficulty">
+          <button data-mode="easy" class="mode active" role="radio" aria-checked="true">
+            <b>Easy</b><span>Famous cities · continent hint · 20s</span><em id="best-easy">Best: –</em>
+          </button>
+          <button data-mode="hard" class="mode" role="radio" aria-checked="false">
+            <b>Hard</b><span>Lesser-known cities · 15s · <strong>×1.5 points</strong></span><em id="best-hard">Best: –</em>
+          </button>
+        </div>
+        <button id="playBtn" class="primary big">Play</button>
+        <button id="exploreBtn" class="secondary">🌍 Explore the live Earth</button>
+        <p class="tiny">10 rounds · closer &amp; faster = more points · 🔥 streaks multiply</p>
+      </div>
+    </section>
+
+    <!-- Game over -->
+    <section id="over" class="overlay" hidden>
+      <div class="card">
+        <h1 id="finalTitle">Well played!</h1>
+        <p class="final"><b id="finalScore">0</b><span id="newBest" hidden>New best!</span></p>
+        <p class="bestLine" id="bestLine"></p>
+        <p class="sub" id="finalStats"></p>
+        <ol id="breakdown"></ol>
+        <div class="row">
+          <button id="againBtn" class="primary">Play again</button>
+          <button id="menuBtn">Menu</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quit confirmation (game is paused while open) -->
+    <section id="quitDialog" class="overlay" hidden>
+      <div class="card small" role="dialog" aria-modal="true" aria-labelledby="quitTitle">
+        <h1 id="quitTitle">Quit this game?</h1>
+        <p class="sub">The timer is paused. If you quit, this game's score won't be saved.</p>
+        <div class="row">
+          <button id="resumeBtn" class="primary">Keep playing</button>
+          <button id="confirmQuitBtn">Quit</button>
+        </div>
+      </div>
+    </section>
+
+    <button id="quitBtn" aria-label="Quit game" hidden>✕</button>
+    <button id="muteBtn" aria-label="Toggle sound">🔊</button>
+
+    <script type="module" src="main.js?v=2"></script>
+  </body>
+</html>
